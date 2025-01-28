@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2025蛇年祝福生成器</title>
+    <style>
+        :root {
+            --red: #c62828;
+            --gold: #ffd700;
+        }
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: var(--red);
+            font-family: '楷体', cursive;
+            color: var(--gold);
+            transition: background 0.5s;
+        }
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        .active-page {
+            display: block;
+            opacity: 1;
+        }
+
+        /* 输入页样式 */
+        #inputPage {
+            background: linear-gradient(45deg, #8b0000, #c62828);
+        }
+        .input-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 20vh;
+        }
+        .lantern {
+            width: 120px;
+            animation: swing 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px var(--gold));
+        }
+        input {
+            font-size: 1.5em;
+            padding: 15px 30px;
+            border: 3px solid var(--gold);
+            border-radius: 50px;
+            background: rgba(255,255,255,0.1);
+            color: var(--gold);
+            margin: 30px 0;
+            width: 70%;
+            max-width: 400px;
+        }
+        button {
+            font-size: 1.8em;
+            padding: 15px 50px;
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            border: none;
+            border-radius: 40px;
+            color: var(--red);
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        /* 祝福页样式 */
+        #blessingPage .container {
+            padding-top: 15vh;
+        }
+        .snake-border {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            border: 3px solid var(--gold);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+        }
+        .snake-border::before {
+            content: '🐍';
+            position: absolute;
+            font-size: 2em;
+            left: -20px;
+            top: -20px;
+            background: var(--red);
+            padding: 5px;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        /* 复用之前的烟花特效样式 */
+    </style>
+</head>
+<body>
+    <canvas id="fireworks"></canvas>
+
+    <!-- 输入页 -->
+    <div id="inputPage" class="page active-page">
+        <div class="input-container">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZmZDcwMCIvPjxwYXRoIGQ9Ik00MCAzMEw1MCA2MCA2MCAzMCA0NSA0NSIgc3Ryb2tlPSIjYzYyODI4IiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=" 
+                 class="lantern" alt="灯笼">
+            <h1>2025乙巳蛇年</h1>
+            <p style="font-size:1.2em">输入昵称，领取专属祝福</p>
+            <input type="text" id="username" placeholder="请输入您的昵称">
+            <br>
+            <button onclick="generateBlessing()">生成祝福</button>
+        </div>
+    </div>
+
+    <!-- 祝福展示页 -->
+    <div id="blessingPage" class="page">
+        <div class="container">
+            <div class="snake-border">
+                <h1 id="greeting"></h1>
+                <div id="blessingText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 烟花特效（复用之前的Fireworks类）
+        // [原有烟花代码保持不变]
+
+        // 页面切换控制
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(pageId).classList.add('active-page');
+        }
+
+        // 生成祝福
+        function generateBlessing() {
+            const username = document.getElementById('username').value || '有缘人';
+            const greeting = `🐍 ${username} 的专属蛇年祝福 🐍`;
+            
+            const blessings = [
+                `灵蛇献瑞兆丰年，万户桃符映日鲜。${username}新春至，愿您：<br>行藏如意添福寿，动静皆宜保平安！`,
+                `东风夜放花千树，宝马雕车香满路。<br>${username}值此良辰，愿：<br>金蛇盘福财源广，玉烛调春事业兴！`,
+                `凤箫声动转蛇年，火树银花不夜天。<br>${username}新岁至，祝：<br>身如灵蛇般矫健，运似春水样绵长！`,
+                `爆竹声中一岁除，春风送暖入屠苏。<br>${username}新岁启，愿：<br>蛇衔瑞草添福禄，梅报新春纳吉祥！`,
+                `锦瑟年华蛇献瑞，梅红雪白又一春。<br>${username}逢此佳期，祝：<br>事业如蛇腾九霄，家宅似鼎镇千钧！`
+            ];
+
+            document.getElementById('greeting').innerHTML = greeting;
+            document.getElementById('blessingText').innerHTML = 
+                blessings[Math.floor(Math.random()*blessings.length)];
+            
+            showPage('blessingPage');
+            setTimeout(() => window.scrollTo(0,0), 100);
+        }
+
+        // 初始化烟花
+        const fireworks = new Fireworks(document.getElementById('fireworks'));
+        fireworks.update();
+    </script>
+</body>
+</html>
